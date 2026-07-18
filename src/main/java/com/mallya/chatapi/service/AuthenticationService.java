@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +36,12 @@ public class AuthenticationService {
         user.setName(requestDTO.getName());
         user.setEmail(requestDTO.getEmail());
         user.setUsername(requestDTO.getUsername());
+        if(requestDTO.getAbout() != null && !requestDTO.getAbout().isBlank()){
+            user.setAbout(requestDTO.getAbout());
+        }
+        if(requestDTO.getAbout() != null && !requestDTO.getAbout().isBlank()){
+            user.setProfilePic(requestDTO.getProfilePic());
+        }
         String hashedPassword = passwordEncoder.encode(requestDTO.getPassword());
         user.setPassword(hashedPassword);
 
