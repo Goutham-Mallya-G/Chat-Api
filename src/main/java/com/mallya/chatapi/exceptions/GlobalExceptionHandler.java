@@ -32,4 +32,11 @@ public class GlobalExceptionHandler{
         errors.put("error" , ex.getMessage());
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @ExceptionHandler(FriendRequestException.class)
+    public ResponseEntity<Map<String,String>> handleFriendRequestException(FriendRequestException ex){
+        Map<String, String > errors = new HashMap<>();
+        errors.put("error" , ex.getMessage());
+        return ResponseEntity.badRequest().body(errors);
+    }
 }
