@@ -39,4 +39,11 @@ public class GlobalExceptionHandler{
         errors.put("error" , ex.getMessage());
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @ExceptionHandler(ConversationException.class)
+    public ResponseEntity<Map<String,String>> handleConversationException(ConversationException ex){
+        Map<String, String > errors = new HashMap<>();
+        errors.put("error" , ex.getMessage());
+        return ResponseEntity.badRequest().body(errors);
+    }
 }

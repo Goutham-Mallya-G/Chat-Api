@@ -1,8 +1,7 @@
 package com.mallya.chatapi.repository;
 
 import com.mallya.chatapi.model.FriendRequest;
-import com.mallya.chatapi.model.Users;
-import jakarta.validation.constraints.Email;
+import com.mallya.chatapi.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -11,7 +10,7 @@ import java.util.Optional;
 
 public interface FriendRequestRepository extends JpaRepository<FriendRequest, Long> {
 
-    Optional<FriendRequest> findBySenderAndReceiver(Users sender, Users receiver);
+    Optional<FriendRequest> findBySenderAndReceiver(User sender, User receiver);
 
     @Query("""
     select fr
@@ -19,7 +18,7 @@ public interface FriendRequestRepository extends JpaRepository<FriendRequest, Lo
      where (fr.sender = :user or fr.receiver = :user)
      and fr.status = 'ACCEPTED'
 """)
-    List<FriendRequest> findFriends(Users user);
+    List<FriendRequest> findFriends(User user);
 
     @Query("""
     select fr
@@ -27,12 +26,26 @@ public interface FriendRequestRepository extends JpaRepository<FriendRequest, Lo
      where (fr.receiver = :user)
      and fr.status = 'PENDING'
 """)
-    List<FriendRequest> findPendingRequests(Users user);
+    List<FriendRequest> findPendingRequests(User user);
 
     boolean existsBySenderAndReceiverOrReceiverAndSender(
-            Users sender1,
-            Users receiver1,
-            Users receiver2,
-            Users sender2
+            User sender1,
+            User receiver1,
+            User receiver2,
+            User sender2
     );
+
+    @Query("""
+        SELECT f
+        FROM FriendRequest f
+        WHERE (
+            f.sender = :user1
+            AND f.receiver = :user2
+        )
+        OR (
+            f.sender = :user2
+            AND f.receiver = :user1
+        )
+""")
+    Optional<FriendRequest> findFriendship(User user1, User user2);
 }

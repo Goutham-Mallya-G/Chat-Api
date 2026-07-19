@@ -7,7 +7,7 @@ import com.mallya.chatapi.enums.Status;
 import com.mallya.chatapi.exceptions.FriendRequestException;
 import com.mallya.chatapi.exceptions.UserException;
 import com.mallya.chatapi.model.FriendRequest;
-import com.mallya.chatapi.model.Users;
+import com.mallya.chatapi.model.User;
 import com.mallya.chatapi.repository.FriendRequestRepository;
 import com.mallya.chatapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +28,8 @@ public class FriendRequestService {
     public FriendRequestResponseDTO friendRequest(Long id, String email) {
         FriendRequest friendRequest = new FriendRequest();
 
-        Users sender = getUserByEmail(email);
-        Users receiver = getUserById(id);
+        User sender = getUserByEmail(email);
+        User receiver = getUserById(id);
 
         if(sender.equals(receiver)){
             throw new FriendRequestException("Cannot send request to yourself");
@@ -48,8 +48,8 @@ public class FriendRequestService {
     }
 
     public FriendRequestResponseDTO acceptRequest(Long id, String email) {
-        Users sender = getUserById(id);
-        Users receiver = getUserByEmail(email);
+        User sender = getUserById(id);
+        User receiver = getUserByEmail(email);
 
         FriendRequest friendRequest = friendRequestRepository.findBySenderAndReceiver(sender,receiver)
                                     .orElseThrow(() -> new FriendRequestException("No request found"));
@@ -63,8 +63,8 @@ public class FriendRequestService {
     }
 
     public FriendRequestResponseDTO rejectRequest(Long id, String email) {
-        Users sender = getUserById(id);
-        Users receiver = getUserByEmail(email);
+        User sender = getUserById(id);
+        User receiver = getUserByEmail(email);
 
         FriendRequest friendRequest = friendRequestRepository.findBySenderAndReceiver(sender,receiver)
                 .orElseThrow(() -> new FriendRequestException("No request found"));
@@ -80,8 +80,8 @@ public class FriendRequestService {
 
 
     public FriendRequestResponseDTO cancelRequest(Long id, String email) {
-        Users sender = getUserByEmail(email);
-        Users receiver = getUserById(id);
+        User sender = getUserByEmail(email);
+        User receiver = getUserById(id);
 
         FriendRequest friendRequest = friendRequestRepository.findBySenderAndReceiver(sender,receiver)
                 .orElseThrow(() -> new FriendRequestException("No request found"));
@@ -96,7 +96,7 @@ public class FriendRequestService {
     }
 
     public List<FriendResponseDTO> getAllFriends(String email) {
-        Users user = getUserByEmail(email);
+        User user = getUserByEmail(email);
         List<FriendResponseDTO> list = new ArrayList<>();
         List<FriendRequest> friendsList = friendRequestRepository.findFriends(user);
         for(FriendRequest friendRequest : friendsList){
@@ -111,7 +111,7 @@ public class FriendRequestService {
     }
 
     public List<FriendRequestResponseDTO> getPendingRequests(String email) {
-        Users user = getUserByEmail(email);
+        User user = getUserByEmail(email);
         List<FriendRequestResponseDTO> list = new ArrayList<>();
         List<FriendRequest> friendsList = friendRequestRepository.findPendingRequests(user);
         for(FriendRequest friendRequest : friendsList){
@@ -120,12 +120,12 @@ public class FriendRequestService {
         return list;
     }
 
-    private @NonNull Users getUserByEmail(String email) {
+    private @NonNull User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserException("No user found"));
     }
 
-    private @NonNull Users getUserById(Long id){
+    private @NonNull User getUserById(Long id){
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserException("No user found"));
     }

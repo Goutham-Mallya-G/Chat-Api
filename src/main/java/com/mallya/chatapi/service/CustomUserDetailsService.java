@@ -1,7 +1,7 @@
 package com.mallya.chatapi.service;
 
 import com.mallya.chatapi.security.CustomUserDetails;
-import com.mallya.chatapi.model.Users;
+import com.mallya.chatapi.model.User;
 import com.mallya.chatapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +16,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = userRepository.findByEmail(username)
+        User user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("No user found"));
 
         return new CustomUserDetails(user);

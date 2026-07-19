@@ -8,16 +8,17 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+@Table(name = "friendRequests")
 public class FriendRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     @JoinColumn(name = "sender_id")
-    private Users sender;
+    private User sender;
     @ManyToOne
     @JoinColumn(name ="receiver_id")
-    private Users receiver;
+    private User receiver;
     @Enumerated(EnumType.STRING)
     private Status status;
     private LocalDateTime createdAt;

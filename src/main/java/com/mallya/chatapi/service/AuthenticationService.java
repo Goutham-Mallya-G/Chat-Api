@@ -3,7 +3,7 @@ package com.mallya.chatapi.service;
 import com.mallya.chatapi.dto.user.login.UserLoginRequestDTO;
 import com.mallya.chatapi.dto.user.register.UserRegisterRequestDTO;
 import com.mallya.chatapi.exceptions.UserException;
-import com.mallya.chatapi.model.Users;
+import com.mallya.chatapi.model.User;
 import com.mallya.chatapi.repository.UserRepository;
 import com.mallya.chatapi.security.JwtService;
 import jakarta.validation.Valid;
@@ -14,10 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +30,7 @@ public class AuthenticationService {
             throw new UserException("Email or Username is already registered");
         }
 
-        Users user = new Users();
+        User user = new User();
         user.setName(requestDTO.getName());
         user.setEmail(requestDTO.getEmail());
         user.setUsername(requestDTO.getUsername());
