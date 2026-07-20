@@ -7,13 +7,10 @@ import lombok.Data;
 
 @Data
 public class UserUpdateRequestDTO {
-    @NotNull(message = "Name cannot be null")
     @NotBlank(message = "Name cannot be blank")
     @Size(min = 3, max = 30, message = "Name should be under 3 to 30 characters")
     private String name;
-    @NotNull(message = "About cannot be null")
     @Size(max = 50, message = "About cannot exceed more than 50 characters")
     private String about;
-    @NotNull(message = "ProfilePic cannot be null")
     private String profilePic;
 }

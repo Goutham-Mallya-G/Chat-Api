@@ -1,7 +1,6 @@
 package com.mallya.chatapi.controller;
 
 import com.mallya.chatapi.dto.conversation.ConversationResponseDTO;
-import com.mallya.chatapi.model.Conversation;
 import com.mallya.chatapi.service.ConversationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +25,4 @@ public class ConversationController {
     public ResponseEntity<List<ConversationResponseDTO>> getConversations(@AuthenticationPrincipal UserDetails userDetails){
         return ResponseEntity.ok(conversationService.getConversations(userDetails.getUsername()));
     }
-
 }

@@ -42,6 +42,7 @@ public class UtilDTO {
         responseDTO.setEmail(friend.getEmail());
         responseDTO.setAbout(friend.getAbout());
         responseDTO.setProfilePic(friend.getProfilePic());
+        responseDTO.setName(friend.getName());
         return responseDTO;
     }
 
