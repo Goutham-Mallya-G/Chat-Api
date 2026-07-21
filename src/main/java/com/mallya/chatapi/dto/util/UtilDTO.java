@@ -61,6 +61,7 @@ public class UtilDTO {
         responseDTO.setContent(message.getContent());
         responseDTO.setSenderName(message.getSender().getName());
         responseDTO.setCreatedAt(message.getCreatedAt());
+        responseDTO.setConversationID(message.getConversation().getId());
         return responseDTO;
     }
 }

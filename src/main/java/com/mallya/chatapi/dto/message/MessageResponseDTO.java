@@ -14,4 +14,6 @@ public class MessageResponseDTO {
     private String senderName;
 
     private LocalDateTime createdAt;
+
+    private Long conversationID;
 }

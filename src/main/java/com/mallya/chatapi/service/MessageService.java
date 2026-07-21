@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class MessageService {
     private final UtilDTO utilDTO;
     private final ConversationService conversationService;
 
+    @Transactional
     public MessageResponseDTO sendMessage(@Valid MessageRequestDTO messageRequestDTO, String email) {
         User sender = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserException("Login again"));

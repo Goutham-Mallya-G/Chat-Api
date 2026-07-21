@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Tester</title>
+</head>
+<body>
+
+<input id="token" placeholder="JWT Token" size="80">
+<button onclick="connect()">Connect</button>
+
+<br><br>
+
+<input id="conversationId" placeholder="Conversation ID">
+
+<button onclick="subscribe()">Subscribe</button>
+
+<br><br>
+
+<input id="message" placeholder="Message">
+
+<button onclick="sendMessage()">Send</button>
+
+<pre id="logs"></pre>
+
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7/bundles/stomp.umd.min.js"></script>
+
+<script>
+    let client;
+
+    function log(message){
+        document.getElementById("logs").textContent += message + "\n";
+    }
+
+    window.connect = function(){
+
+        const token = document.getElementById("token").value;
+
+        client = new StompJs.Client({
+            brokerURL: "ws://localhost:8080/ws",
+
+            connectHeaders:{
+                Authorization: "Bearer " + token
+            },
+
+            debug: str => log(str),
+
+            onConnect: () => {
+                log("Connected");
+            },
+
+            onStompError: frame => {
+                log(frame.headers.message);
+            }
+        });
+
+        client.activate();
+    }
+
+    window.subscribe = function(){
+
+        const conversationId =
+            document.getElementById("conversationId").value;
+
+        client.subscribe(
+            "/topic/conversations/" + conversationId,
+            message => log(message.body)
+        );
+    }
+
+    window.sendMessage = function(){
+
+        client.publish({
+
+            destination: "/app/chat.send",
+
+            body: JSON.stringify({
+
+                conversationId: Number(document.getElementById("conversationId").value),
+                content: document.getElementById("message").value
+
+            })
+
+        });
+
+    }
+
+</script>
+
+</body>
+</html>

@@ -37,7 +37,7 @@ public class AuthenticationService {
         if(requestDTO.getAbout() != null && !requestDTO.getAbout().isBlank()){
             user.setAbout(requestDTO.getAbout());
         }
-        if(requestDTO.getAbout() != null && !requestDTO.getAbout().isBlank()){
+        if(requestDTO.getProfilePic() != null && !requestDTO.getProfilePic().isBlank()){
             user.setProfilePic(requestDTO.getProfilePic());
         }
         String hashedPassword = passwordEncoder.encode(requestDTO.getPassword());

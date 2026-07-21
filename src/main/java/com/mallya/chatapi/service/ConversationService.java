@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,6 +64,7 @@ public class ConversationService {
         return utilDTO.convertConversationToConversationResponseDTO(conversation.get(),friend);
     }
 
+    @Transactional(readOnly = true)
     public Conversation getAuthorizedConversation(Long conversationId, User user) {
 
         Conversation conversation = conversationRepository.findById(conversationId)
